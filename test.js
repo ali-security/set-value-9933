@@ -198,3 +198,15 @@ describe('escaping', function() {
     assert.deepEqual(obj2, { 'e.f': { 'g.h.i': { j: 1 } } });
   });
 });
+
+describe('pollution', function() {
+  it('should not allow to pollut object', function() {
+    set({}, ['__proto__', 'polluted'], 'yes');
+    assert.equal({}.polluted, undefined);
+  });
+
+  it('should not allow to pollut inner keys of object', function() {
+    set({}, ['constructor.prototype.exploit', 'polluted'], 'yes');
+    assert.equal({}.exploit, undefined);
+  });
+});
